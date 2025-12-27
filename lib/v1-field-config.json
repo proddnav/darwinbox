@@ -1,0 +1,112 @@
+{
+  "selectedCombinations": [
+    {
+      "id": "2.1",
+      "categoryTitle": "Business Travel Expense",
+      "categoryValue": "a66f40962b1f55",
+      "expenseTypeTitle": "Business Travel - Airport Transfer",
+      "expenseTypeValue": "a64aea39add3ea",
+      "fields": [
+        {
+          "name": "date",
+          "label": "Expense Date",
+          "required": true,
+          "type": "date",
+          "selector": "input[name='UserExpensesForm[date]']",
+          "format": "DD-MM-YYYY"
+        },
+        {
+          "name": "amount",
+          "label": "Amount",
+          "required": true,
+          "type": "number",
+          "selector": "input.amount, input[name='UserExpensesForm[amount]']",
+          "note": "Currency defaults to INR, no need to set"
+        },
+        {
+          "name": "merchant",
+          "label": "Merchant",
+          "required": false,
+          "type": "text",
+          "selector": "#UserExpensesForm_merchant, input[name='UserExpensesForm[merchant]']"
+        },
+        {
+          "name": "invoiceNumber",
+          "label": "Invoice number",
+          "required": false,
+          "type": "text",
+          "selector": "#UserExpensesForm_invoice_number, input[name='UserExpensesForm[invoice_number]']"
+        },
+        {
+          "name": "description",
+          "label": "Description",
+          "required": true,
+          "type": "textarea",
+          "selector": "#UserExpensesForm_itemName, textarea[name='UserExpensesForm[itemName]']"
+        },
+        {
+          "name": "fileUpload",
+          "label": "File Upload",
+          "required": false,
+          "type": "file",
+          "selector": "#uploadBtn, input[name='upload[]']",
+          "note": "Handled separately, not filled in this step"
+        }
+      ]
+    },
+    {
+      "id": "2.5",
+      "categoryTitle": "Business Travel Expense",
+      "categoryValue": "a66f40962b1f55",
+      "expenseTypeTitle": "Business Travel - Local conveyance",
+      "expenseTypeValue": "a64aea3aa222d4",
+      "fields": "Same as 2.1 (to be validated)"
+    },
+    {
+      "id": "2.7",
+      "categoryTitle": "Business Travel Expense",
+      "categoryValue": "a66f40962b1f55",
+      "expenseTypeTitle": "Business Travel - Meals",
+      "expenseTypeValue": "a64acfb46e8520",
+      "fields": "Same as 2.1 (to be validated)"
+    },
+    {
+      "id": "3.1",
+      "categoryTitle": "Cafe Expenses",
+      "categoryValue": "a6867e8ed8ada4",
+      "expenseTypeTitle": "Conveyance Expenses - Cafe Visit",
+      "expenseTypeValue": "a6867e939109ff",
+      "fields": "Same as 2.1 (to be validated)"
+    },
+    {
+      "id": "3.2",
+      "categoryTitle": "Cafe Expenses",
+      "categoryValue": "a6867e8ed8ada4",
+      "expenseTypeTitle": "Fuel - 2 Wheeler - Cafe Visit",
+      "expenseTypeValue": "a6867e94a253f1",
+      "fields": "Same as 2.1 (to be validated)"
+    },
+    {
+      "id": "3.3",
+      "categoryTitle": "Cafe Expenses",
+      "categoryValue": "a6867e8ed8ada4",
+      "expenseTypeTitle": "Fuel - 4 Wheeler - Cafe Visit",
+      "expenseTypeValue": "a6867e95ab012f",
+      "fields": "Same as 2.1 (to be validated)"
+    },
+    {
+      "id": "5.1",
+      "categoryTitle": "Miscellaneous Expense",
+      "categoryValue": "a66f66ccd63a7f",
+      "expenseTypeTitle": "Benchmarking Expense",
+      "expenseTypeValue": "a6554921283a46",
+      "fields": "Same as 2.1 (to be validated)"
+    }
+  ],
+  "notes": {
+    "currency": "Defaults to INR, no need to set",
+    "fileUpload": "Handled separately after form fill",
+    "dateFormat": "Use DD-MM-YYYY format"
+  }
+}
+

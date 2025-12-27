@@ -1,0 +1,457 @@
+[
+  {
+    "id": "1.1",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Admin Expense - Meals",
+    "expenseTypeValue": "a64aea67b3af57"
+  },
+  {
+    "id": "1.2",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Admin Expense - Others",
+    "expenseTypeValue": "a64aea689f1e4a"
+  },
+  {
+    "id": "1.3",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Admin Expense - Printing & Stationery",
+    "expenseTypeValue": "a64aea67011b39"
+  },
+  {
+    "id": "1.4",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Legal Charges - Advocate Fees",
+    "expenseTypeValue": "a64aea58ac6c0e"
+  },
+  {
+    "id": "1.5",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Legal Charges - Notary",
+    "expenseTypeValue": "a64aea56b2a706"
+  },
+  {
+    "id": "1.6",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Legal Charges - Registration Fees",
+    "expenseTypeValue": "a64aea57a2f082"
+  },
+  {
+    "id": "1.7",
+    "categoryTitle": "Admin & Legal Expense",
+    "categoryValue": "a66f6600a2ba87",
+    "expenseTypeTitle": "Legal Charges - Stamp Paper",
+    "expenseTypeValue": "a64aea55b1dcf4"
+  },
+  {
+    "id": "2.1",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Airport Transfer",
+    "expenseTypeValue": "a64aea39add3ea"
+  },
+  {
+    "id": "2.2",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Airport Transfer (VP & Above)",
+    "expenseTypeValue": "a666ed2582a534"
+  },
+  {
+    "id": "2.3",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Flight (Below VP)",
+    "expenseTypeValue": "a672c70e1aa4fc"
+  },
+  {
+    "id": "2.4",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Flight (VP & Above)",
+    "expenseTypeValue": "a666ed28a3db3b"
+  },
+  {
+    "id": "2.5",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Local conveyance",
+    "expenseTypeValue": "a64aea3aa222d4"
+  },
+  {
+    "id": "2.6",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Local conveyance (VP & Above)",
+    "expenseTypeValue": "a666ed2be7640b"
+  },
+  {
+    "id": "2.7",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Meals",
+    "expenseTypeValue": "a64acfb46e8520"
+  },
+  {
+    "id": "2.8",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Meals (VP & Above)",
+    "expenseTypeValue": "a666ed2f5a0380"
+  },
+  {
+    "id": "2.9",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Lodging 5 days or More",
+    "expenseTypeValue": "perdiem_a64ad06641d852"
+  },
+  {
+    "id": "2.10",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Lodging 5 days or More (VP & Above)",
+    "expenseTypeValue": "perdiem_a66d6d554b4b58"
+  },
+  {
+    "id": "2.11",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Lodging Less than 5 days",
+    "expenseTypeValue": "perdiem_a64ae9cd5596a6"
+  },
+  {
+    "id": "2.12",
+    "categoryTitle": "Business Travel Expense",
+    "categoryValue": "a66f40962b1f55",
+    "expenseTypeTitle": "Business Travel - Lodging Less than 5 days (VP & Above)",
+    "expenseTypeValue": "perdiem_a66d6d5f4c5bff"
+  },
+  {
+    "id": "3.1",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Conveyance Expenses - Cafe Visit",
+    "expenseTypeValue": "a6867e939109ff"
+  },
+  {
+    "id": "3.2",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Fuel - 2 Wheeler - Cafe Visit",
+    "expenseTypeValue": "a6867e94a253f1"
+  },
+  {
+    "id": "3.3",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Fuel - 4 Wheeler - Cafe Visit",
+    "expenseTypeValue": "a6867e95ab012f"
+  },
+  {
+    "id": "3.4",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Other Operational Expenses - Cafe",
+    "expenseTypeValue": "a6867e9b0b4424"
+  },
+  {
+    "id": "3.5",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Printing & Stationery Expenses - Cafe",
+    "expenseTypeValue": "a6867e9cb9827e"
+  },
+  {
+    "id": "3.6",
+    "categoryTitle": "Cafe Expenses",
+    "categoryValue": "a6867e8ed8ada4",
+    "expenseTypeTitle": "Smallware & Raw Material Expenses - Cafe",
+    "expenseTypeValue": "a6867e9f6daec3"
+  },
+  {
+    "id": "4.1",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Conveyance Expense - Liasoning Activity",
+    "expenseTypeValue": "a64aea411a96b6"
+  },
+  {
+    "id": "4.2",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Fuel - 2 Wheeler - Liasoning Activity",
+    "expenseTypeValue": "a64ad01a2407ba"
+  },
+  {
+    "id": "4.3",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Fuel - 4 Wheeler - Liasoning Activity",
+    "expenseTypeValue": "a64ad02d624fbe"
+  },
+  {
+    "id": "4.4",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Liasoning - Fines & Penalties",
+    "expenseTypeValue": "a64aea5227a827"
+  },
+  {
+    "id": "4.5",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Liasoning - Gift Box",
+    "expenseTypeValue": "a64aea5304fcb5"
+  },
+  {
+    "id": "4.6",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Liasoning - Meals",
+    "expenseTypeValue": "a64aea53d515c3"
+  },
+  {
+    "id": "4.7",
+    "categoryTitle": "Liasoning Activity Expense",
+    "categoryValue": "a66f670f06e6df",
+    "expenseTypeTitle": "Liasoning - Others Expenses",
+    "expenseTypeValue": "a64aea54c1084e"
+  },
+  {
+    "id": "5.1",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Benchmarking Expense",
+    "expenseTypeValue": "a6554921283a46"
+  },
+  {
+    "id": "5.2",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Conveyance Expense - Others",
+    "expenseTypeValue": "a64aea421bbae6"
+  },
+  {
+    "id": "5.3",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Fuel - 2 Wheeler - Others",
+    "expenseTypeValue": "a64ad02690ea7b"
+  },
+  {
+    "id": "5.4",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Fuel - 4 Wheeler - Others",
+    "expenseTypeValue": "a64ad031fc8e50"
+  },
+  {
+    "id": "5.5",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Other Expenses",
+    "expenseTypeValue": "a64aea59ab5984"
+  },
+  {
+    "id": "5.6",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Project Saksham",
+    "expenseTypeValue": "a6641bf5ce5ee6"
+  },
+  {
+    "id": "5.7",
+    "categoryTitle": "Miscellaneous Expense",
+    "categoryValue": "a66f66ccd63a7f",
+    "expenseTypeTitle": "Zepto Premier League Expenses",
+    "expenseTypeValue": "a689c84b75a404"
+  },
+  {
+    "id": "6.1",
+    "categoryTitle": "Mother Hub Expenses",
+    "categoryValue": "a66ff779fa4cc6",
+    "expenseTypeTitle": "Conveyance Expense - Motherhub Visit",
+    "expenseTypeValue": "a64aea3f3a9ba8"
+  },
+  {
+    "id": "6.2",
+    "categoryTitle": "Mother Hub Expenses",
+    "categoryValue": "a66ff779fa4cc6",
+    "expenseTypeTitle": "Fuel - 2 Wheeler - Motherhub Visit",
+    "expenseTypeValue": "a64ad024b2955c"
+  },
+  {
+    "id": "6.3",
+    "categoryTitle": "Mother Hub Expenses",
+    "categoryValue": "a66ff779fa4cc6",
+    "expenseTypeTitle": "Fuel - 4 Wheeler - Motherhub Visit",
+    "expenseTypeValue": "a64ad033742be9"
+  },
+  {
+    "id": "6.4",
+    "categoryTitle": "Mother Hub Expenses",
+    "categoryValue": "a66ff779fa4cc6",
+    "expenseTypeTitle": "Fuel Expenses - DG Set (Mother Hub)",
+    "expenseTypeValue": "a672205923eedf"
+  },
+  {
+    "id": "6.5",
+    "categoryTitle": "Mother Hub Expenses",
+    "categoryValue": "a66ff779fa4cc6",
+    "expenseTypeTitle": "Operational Expenses",
+    "expenseTypeValue": "a684ab0f1008bd"
+  },
+  {
+    "id": "7.1",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Brokerage / Movement of Goods",
+    "expenseTypeValue": "a64ad045ada58e"
+  },
+  {
+    "id": "7.2",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Conveyance",
+    "expenseTypeValue": "a64aea329b0899"
+  },
+  {
+    "id": "7.3",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Flight",
+    "expenseTypeValue": "a64ae80eab0f09"
+  },
+  {
+    "id": "7.4",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Meals",
+    "expenseTypeValue": "a64ad04dacf518"
+  },
+  {
+    "id": "7.5",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Lodging - Tech Employees",
+    "expenseTypeValue": "perdiem_a66f12edf7b9e2"
+  },
+  {
+    "id": "7.6",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Lodging 5 days or more",
+    "expenseTypeValue": "perdiem_a64ad0690c2fae"
+  },
+  {
+    "id": "7.7",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Lodging 5 days or more (VP & Above)",
+    "expenseTypeValue": "perdiem_a66d6d6ad63797"
+  },
+  {
+    "id": "7.8",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "categoryValue": "a66f65f6db6556",
+    "expenseTypeTitle": "Relocation - Lodging Less than 5 days",
+    "expenseTypeValue": "perdiem_a64ae9d0572b27"
+  },
+  {
+    "id": "8.1",
+    "categoryTitle": "Staff Welfare Expense",
+    "categoryValue": "a66f660a710a89",
+    "expenseTypeTitle": "Staff Welfare - Celebrations",
+    "expenseTypeValue": "a64af7fb793fc3"
+  },
+  {
+    "id": "8.2",
+    "categoryTitle": "Staff Welfare Expense",
+    "categoryValue": "a66f660a710a89",
+    "expenseTypeTitle": "Staff Welfare - Corporate Event",
+    "expenseTypeValue": "a64af7ffd70578"
+  },
+  {
+    "id": "8.3",
+    "categoryTitle": "Staff Welfare Expense",
+    "categoryValue": "a66f660a710a89",
+    "expenseTypeTitle": "Staff Welfare - Team Engagement",
+    "expenseTypeValue": "a64af7ff1d9c2e"
+  },
+  {
+    "id": "9.1",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Conveyance Expense - Store visit",
+    "expenseTypeValue": "a64aea3dd4ba07"
+  },
+  {
+    "id": "9.2",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Fuel - 2 Wheeler - Store Visit",
+    "expenseTypeValue": "a64ad027e9105e"
+  },
+  {
+    "id": "9.3",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Fuel - 4 Wheeler - Store Visit",
+    "expenseTypeValue": "a64ad02ec9c110"
+  },
+  {
+    "id": "9.4",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Fuel Expenses - DG Set (Store)",
+    "expenseTypeValue": "a66b063ef28dff"
+  },
+  {
+    "id": "9.5",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Housekeeping & Waste Collection Expenses",
+    "expenseTypeValue": "a66b064367db6b"
+  },
+  {
+    "id": "9.6",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Operational Expense",
+    "expenseTypeValue": "a64f18881279eb"
+  },
+  {
+    "id": "9.7",
+    "categoryTitle": "Store Expenses",
+    "categoryValue": "a66f66060a1f7a",
+    "expenseTypeTitle": "Zepton/Rider Related Expenses",
+    "expenseTypeValue": "a68404f4e4bcf6"
+  },
+  {
+    "id": "10.1",
+    "categoryTitle": "Zepto HQ Relocation Expense",
+    "categoryValue": "a66f65cc5a63e6",
+    "expenseTypeTitle": "Zepto HQ Relocation - Brokerage",
+    "expenseTypeValue": "a66c57dea03f01"
+  },
+  {
+    "id": "10.2",
+    "categoryTitle": "Zepto HQ Relocation Expense",
+    "categoryValue": "a66f65cc5a63e6",
+    "expenseTypeTitle": "Zepto HQ Relocation - Movement of Goods & Vehicle",
+    "expenseTypeValue": "a66c57ce9910d2"
+  },
+  {
+    "id": "10.3",
+    "categoryTitle": "Zepto HQ Relocation Expense",
+    "categoryValue": "a66f65cc5a63e6",
+    "expenseTypeTitle": "Zepto HQ Relocation - Others (Flexi Allowance)",
+    "expenseTypeValue": "a66c5826d8c166"
+  }
+]

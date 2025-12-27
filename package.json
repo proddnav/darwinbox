@@ -1,0 +1,43 @@
+{
+  "name": "darwinbox-reimbursements",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "mcp-server": "tsx mcp-server.ts",
+    "setup-mcp-login": "tsx scripts/setup-mcp-login.ts",
+    "scrape-categories": "tsx scripts/scrape-categories.ts",
+    "scrape-categories-v2": "tsx scripts/scrape-categories-v2.ts",
+    "analyze-fields": "tsx scripts/analyze-form-fields.ts",
+    "analyze-expense-fields": "tsx scripts/analyze-expense-fields.ts",
+    "test-single-field": "tsx scripts/test-single-field-analysis.ts",
+    "analyze-selected": "tsx scripts/analyze-selected-combinations.ts",
+    "validate-2.1": "tsx scripts/validate-combination-2.1.ts",
+    "test-fill": "tsx scripts/test-fill-form.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "dotenv": "^17.2.3",
+    "ioredis": "^5.3.2",
+    "next": "16.0.10",
+    "playwright": "^1.57.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.27",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.10",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}

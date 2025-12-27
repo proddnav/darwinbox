@@ -1,0 +1,33 @@
+[
+  {
+    "categoryValue": "a66f40962b1f55",
+    "categoryTitle": "Business Travel Expense",
+    "expenseTypes": [
+      {
+        "expenseTypeValue": "a64aea39add3ea",
+        "expenseTypeTitle": "Business Travel - Airport Transfer",
+        "fields": [
+          {
+            "name": "UserExpensesForm[date]",
+            "type": "date-readonly",
+            "id": "dp1766073211789",
+            "label": "UserExpensesForm[date]",
+            "required": true,
+            "selector": "#dp1766073211789",
+            "visible": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categoryValue": "a6867e8ed8ada4",
+    "categoryTitle": "Cafe Expenses",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f66ccd63a7f",
+    "categoryTitle": "Miscellaneous Expense",
+    "expenseTypes": []
+  }
+]

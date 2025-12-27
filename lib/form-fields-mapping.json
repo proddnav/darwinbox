@@ -1,0 +1,58 @@
+[
+  {
+    "categoryValue": "a66f6600a2ba87",
+    "categoryTitle": "Admin & Legal Expense",
+    "expenseTypes": [
+      {
+        "expenseTypeValue": "a64aea67b3af57",
+        "expenseTypeTitle": "Admin Expense - Meals",
+        "fields": []
+      }
+    ]
+  },
+  {
+    "categoryValue": "a66f40962b1f55",
+    "categoryTitle": "Business Travel Expense",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a6867e8ed8ada4",
+    "categoryTitle": "Cafe Expenses",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f670f06e6df",
+    "categoryTitle": "Liasoning Activity Expense",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f66ccd63a7f",
+    "categoryTitle": "Miscellaneous Expense",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66ff779fa4cc6",
+    "categoryTitle": "Mother Hub Expenses",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f65f6db6556",
+    "categoryTitle": "Relocation Expense (Other than HQ Relocation)",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f660a710a89",
+    "categoryTitle": "Staff Welfare Expense",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f66060a1f7a",
+    "categoryTitle": "Store Expenses",
+    "expenseTypes": []
+  },
+  {
+    "categoryValue": "a66f65cc5a63e6",
+    "categoryTitle": "Zepto HQ Relocation Expense",
+    "expenseTypes": []
+  }
+]

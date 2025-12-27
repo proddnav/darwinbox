@@ -1,0 +1,322 @@
+[
+  {
+    "value": "a66f6600a2ba87",
+    "title": "Admin & Legal Expense",
+    "expenseTypes": [
+      {
+        "value": "a64aea67b3af57",
+        "title": "Admin Expense - Meals"
+      },
+      {
+        "value": "a64aea689f1e4a",
+        "title": "Admin Expense - Others"
+      },
+      {
+        "value": "a64aea67011b39",
+        "title": "Admin Expense - Printing & Stationery"
+      },
+      {
+        "value": "a64aea58ac6c0e",
+        "title": "Legal Charges - Advocate Fees"
+      },
+      {
+        "value": "a64aea56b2a706",
+        "title": "Legal Charges - Notary"
+      },
+      {
+        "value": "a64aea57a2f082",
+        "title": "Legal Charges - Registration Fees"
+      },
+      {
+        "value": "a64aea55b1dcf4",
+        "title": "Legal Charges - Stamp Paper"
+      }
+    ]
+  },
+  {
+    "value": "a66f40962b1f55",
+    "title": "Business Travel Expense",
+    "expenseTypes": [
+      {
+        "value": "a64aea39add3ea",
+        "title": "Business Travel - Airport Transfer"
+      },
+      {
+        "value": "a666ed2582a534",
+        "title": "Business Travel - Airport Transfer (VP & Above)"
+      },
+      {
+        "value": "a672c70e1aa4fc",
+        "title": "Business Travel - Flight (Below VP)"
+      },
+      {
+        "value": "a666ed28a3db3b",
+        "title": "Business Travel - Flight (VP & Above)"
+      },
+      {
+        "value": "a64aea3aa222d4",
+        "title": "Business Travel - Local conveyance"
+      },
+      {
+        "value": "a666ed2be7640b",
+        "title": "Business Travel - Local conveyance (VP & Above)"
+      },
+      {
+        "value": "a64acfb46e8520",
+        "title": "Business Travel - Meals"
+      },
+      {
+        "value": "a666ed2f5a0380",
+        "title": "Business Travel - Meals (VP & Above)"
+      },
+      {
+        "value": "perdiem_a64ad06641d852",
+        "title": "Business Travel - Lodging 5 days or More"
+      },
+      {
+        "value": "perdiem_a66d6d554b4b58",
+        "title": "Business Travel - Lodging 5 days or More (VP & Above)"
+      },
+      {
+        "value": "perdiem_a64ae9cd5596a6",
+        "title": "Business Travel - Lodging Less than 5 days"
+      },
+      {
+        "value": "perdiem_a66d6d5f4c5bff",
+        "title": "Business Travel - Lodging Less than 5 days (VP & Above)"
+      }
+    ]
+  },
+  {
+    "value": "a6867e8ed8ada4",
+    "title": "Cafe Expenses",
+    "expenseTypes": [
+      {
+        "value": "a6867e939109ff",
+        "title": "Conveyance Expenses - Cafe Visit"
+      },
+      {
+        "value": "a6867e94a253f1",
+        "title": "Fuel - 2 Wheeler - Cafe Visit"
+      },
+      {
+        "value": "a6867e95ab012f",
+        "title": "Fuel - 4 Wheeler - Cafe Visit"
+      },
+      {
+        "value": "a6867e9b0b4424",
+        "title": "Other Operational Expenses - Cafe"
+      },
+      {
+        "value": "a6867e9cb9827e",
+        "title": "Printing & Stationery Expenses - Cafe"
+      },
+      {
+        "value": "a6867e9f6daec3",
+        "title": "Smallware & Raw Material Expenses - Cafe"
+      }
+    ]
+  },
+  {
+    "value": "a66f670f06e6df",
+    "title": "Liasoning Activity Expense",
+    "expenseTypes": [
+      {
+        "value": "a64aea411a96b6",
+        "title": "Conveyance Expense - Liasoning Activity"
+      },
+      {
+        "value": "a64ad01a2407ba",
+        "title": "Fuel - 2 Wheeler - Liasoning Activity"
+      },
+      {
+        "value": "a64ad02d624fbe",
+        "title": "Fuel - 4 Wheeler - Liasoning Activity"
+      },
+      {
+        "value": "a64aea5227a827",
+        "title": "Liasoning - Fines & Penalties"
+      },
+      {
+        "value": "a64aea5304fcb5",
+        "title": "Liasoning - Gift Box"
+      },
+      {
+        "value": "a64aea53d515c3",
+        "title": "Liasoning - Meals"
+      },
+      {
+        "value": "a64aea54c1084e",
+        "title": "Liasoning - Others Expenses"
+      }
+    ]
+  },
+  {
+    "value": "a66f66ccd63a7f",
+    "title": "Miscellaneous Expense",
+    "expenseTypes": [
+      {
+        "value": "a6554921283a46",
+        "title": "Benchmarking Expense"
+      },
+      {
+        "value": "a64aea421bbae6",
+        "title": "Conveyance Expense - Others"
+      },
+      {
+        "value": "a64ad02690ea7b",
+        "title": "Fuel - 2 Wheeler - Others"
+      },
+      {
+        "value": "a64ad031fc8e50",
+        "title": "Fuel - 4 Wheeler - Others"
+      },
+      {
+        "value": "a64aea59ab5984",
+        "title": "Other Expenses"
+      },
+      {
+        "value": "a6641bf5ce5ee6",
+        "title": "Project Saksham"
+      },
+      {
+        "value": "a689c84b75a404",
+        "title": "Zepto Premier League Expenses"
+      }
+    ]
+  },
+  {
+    "value": "a66ff779fa4cc6",
+    "title": "Mother Hub Expenses",
+    "expenseTypes": [
+      {
+        "value": "a64aea3f3a9ba8",
+        "title": "Conveyance Expense - Motherhub Visit"
+      },
+      {
+        "value": "a64ad024b2955c",
+        "title": "Fuel - 2 Wheeler - Motherhub Visit"
+      },
+      {
+        "value": "a64ad033742be9",
+        "title": "Fuel - 4 Wheeler - Motherhub Visit"
+      },
+      {
+        "value": "a672205923eedf",
+        "title": "Fuel Expenses - DG Set (Mother Hub)"
+      },
+      {
+        "value": "a684ab0f1008bd",
+        "title": "Operational Expenses"
+      }
+    ]
+  },
+  {
+    "value": "a66f65f6db6556",
+    "title": "Relocation Expense (Other than HQ Relocation)",
+    "expenseTypes": [
+      {
+        "value": "a64ad045ada58e",
+        "title": "Relocation - Brokerage / Movement of Goods"
+      },
+      {
+        "value": "a64aea329b0899",
+        "title": "Relocation - Conveyance"
+      },
+      {
+        "value": "a64ae80eab0f09",
+        "title": "Relocation - Flight"
+      },
+      {
+        "value": "a64ad04dacf518",
+        "title": "Relocation - Meals"
+      },
+      {
+        "value": "perdiem_a66f12edf7b9e2",
+        "title": "Relocation - Lodging - Tech Employees"
+      },
+      {
+        "value": "perdiem_a64ad0690c2fae",
+        "title": "Relocation - Lodging 5 days or more"
+      },
+      {
+        "value": "perdiem_a66d6d6ad63797",
+        "title": "Relocation - Lodging 5 days or more (VP & Above)"
+      },
+      {
+        "value": "perdiem_a64ae9d0572b27",
+        "title": "Relocation - Lodging Less than 5 days"
+      }
+    ]
+  },
+  {
+    "value": "a66f660a710a89",
+    "title": "Staff Welfare Expense",
+    "expenseTypes": [
+      {
+        "value": "a64af7fb793fc3",
+        "title": "Staff Welfare - Celebrations"
+      },
+      {
+        "value": "a64af7ffd70578",
+        "title": "Staff Welfare - Corporate Event"
+      },
+      {
+        "value": "a64af7ff1d9c2e",
+        "title": "Staff Welfare - Team Engagement"
+      }
+    ]
+  },
+  {
+    "value": "a66f66060a1f7a",
+    "title": "Store Expenses",
+    "expenseTypes": [
+      {
+        "value": "a64aea3dd4ba07",
+        "title": "Conveyance Expense - Store visit"
+      },
+      {
+        "value": "a64ad027e9105e",
+        "title": "Fuel - 2 Wheeler - Store Visit"
+      },
+      {
+        "value": "a64ad02ec9c110",
+        "title": "Fuel - 4 Wheeler - Store Visit"
+      },
+      {
+        "value": "a66b063ef28dff",
+        "title": "Fuel Expenses - DG Set (Store)"
+      },
+      {
+        "value": "a66b064367db6b",
+        "title": "Housekeeping & Waste Collection Expenses"
+      },
+      {
+        "value": "a64f18881279eb",
+        "title": "Operational Expense"
+      },
+      {
+        "value": "a68404f4e4bcf6",
+        "title": "Zepton/Rider Related Expenses"
+      }
+    ]
+  },
+  {
+    "value": "a66f65cc5a63e6",
+    "title": "Zepto HQ Relocation Expense",
+    "expenseTypes": [
+      {
+        "value": "a66c57dea03f01",
+        "title": "Zepto HQ Relocation - Brokerage"
+      },
+      {
+        "value": "a66c57ce9910d2",
+        "title": "Zepto HQ Relocation - Movement of Goods & Vehicle"
+      },
+      {
+        "value": "a66c5826d8c166",
+        "title": "Zepto HQ Relocation - Others (Flexi Allowance)"
+      }
+    ]
+  }
+]
