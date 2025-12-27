@@ -5,13 +5,13 @@ import { mapCategoryToReimbursement } from '@/lib/category-mapper';
 export async function POST(request: NextRequest) {
   try {
     // Check API key first
-    const apiKey = process.env.CLAUDE_API_KEY?.trim();
+    const apiKey = process.env.OPENROUTER_API_KEY?.trim() || process.env.CLAUDE_API_KEY?.trim();
     if (!apiKey) {
-      console.error('❌ CLAUDE_API_KEY is not set in environment variables');
+      console.error('❌ OPENROUTER_API_KEY is not set in environment variables');
       return NextResponse.json(
         { 
           error: 'Server configuration error',
-          message: 'CLAUDE_API_KEY is not configured. Please set it in your .env file and restart the server.'
+          message: 'OPENROUTER_API_KEY is not configured. Please set it in your .env file and restart the server.'
         },
         { status: 500 }
       );
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     
     // Provide more specific error messages
     let statusCode = 500;
-    if (errorMessage.includes('CLAUDE_API_KEY') || errorMessage.includes('API key') || errorMessage.includes('authentication')) {
+    if (errorMessage.includes('OPENROUTER_API_KEY') || errorMessage.includes('CLAUDE_API_KEY') || errorMessage.includes('API key') || errorMessage.includes('authentication')) {
       statusCode = 500;
     } else if (errorMessage.includes('rate limit') || errorMessage.includes('429')) {
       statusCode = 429;

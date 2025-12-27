@@ -1,13 +1,12 @@
-import Anthropic from '@anthropic-ai/sdk';
 import { logger } from './logger';
 
-// Get API key from environment
-const getAnthropicClient = () => {
-  const apiKey = process.env.CLAUDE_API_KEY?.trim();
+// Get OpenRouter API key from environment
+const getOpenRouterApiKey = (): string => {
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim() || process.env.CLAUDE_API_KEY?.trim();
   
   if (!apiKey) {
-    logger.error('CLAUDE_API_KEY is not set in environment variables');
-    throw new Error('CLAUDE_API_KEY is not configured. Please set it in your .env file and restart the server.');
+    logger.error('OPENROUTER_API_KEY is not set in environment variables');
+    throw new Error('OPENROUTER_API_KEY is not configured. Please set it in your .env file and restart the server.');
   }
   
   // Log API key status (safely - only show first and last few chars)
@@ -15,31 +14,9 @@ const getAnthropicClient = () => {
     ? `${apiKey.substring(0, 10)}...${apiKey.substring(apiKey.length - 4)}`
     : `${apiKey.substring(0, Math.min(10, apiKey.length))}...`;
   
-  logger.info(`CLAUDE_API_KEY loaded: ${keyPreview} (length: ${apiKey.length})`);
+  logger.info(`OpenRouter API key loaded: ${keyPreview} (length: ${apiKey.length})`);
   
-  // Validate API key format
-  if (!apiKey.startsWith('sk-ant-')) {
-    logger.warn(`CLAUDE_API_KEY does not start with "sk-ant-". Current format: ${keyPreview}`);
-    logger.warn('Claude API keys should start with "sk-ant-api03-" or similar.');
-  } else {
-    logger.info('API key format looks correct (starts with sk-ant-)');
-  }
-  
-  if (apiKey.length < 50) {
-    logger.warn(`CLAUDE_API_KEY seems too short (${apiKey.length} chars). Claude keys are typically 50+ characters.`);
-  }
-  
-  // Connect to Claude
-  try {
-    const client = new Anthropic({
-      apiKey: apiKey
-    });
-    logger.info('Anthropic client initialized successfully');
-    return client;
-  } catch (error) {
-    logger.error('Failed to initialize Anthropic client:', error);
-    throw error;
-  }
+  return apiKey;
 };
 
 export interface ExtractedData {
@@ -59,15 +36,8 @@ export async function extractDataFromInvoice(imageFile: File): Promise<Extracted
 
   logger.info('Processing file:', { name: imageFile.name, type: imageFile.type, size: imageFile.size });
 
-  // Initialize Anthropic client (will throw if API key is missing)
-  let anthropic;
-  try {
-    anthropic = getAnthropicClient();
-  } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : 'Failed to initialize Claude client';
-    logger.error('Anthropic initialization error:', errorMsg);
-    throw new Error(errorMsg);
-  }
+  // Get OpenRouter API key (will throw if missing)
+  const apiKey = getOpenRouterApiKey();
 
   // Convert file to base64
   const arrayBuffer = await imageFile.arrayBuffer();
@@ -116,40 +86,21 @@ export async function extractDataFromInvoice(imageFile: File): Promise<Extracted
     // Default to png if we can't determine
   }
 
-  let message: any = null;
-  // Try multiple model names to find one that works
+  let response: any = null;
+  // Try multiple model names (OpenRouter format with anthropic/ prefix)
   const modelsToTry = [
-    'claude-3-5-sonnet-20241022',
-    'claude-3-5-sonnet-20240620', 
-    'claude-3-sonnet-20240229',
-    'claude-3-opus-20240229',
-    'claude-3-haiku-20240307'
+    'anthropic/claude-3.5-sonnet',
+    'anthropic/claude-3-opus',
+    'anthropic/claude-3-sonnet',
+    'anthropic/claude-3-haiku'
   ];
   
   let lastError: any = null;
   let modelUsed = '';
   
-  for (const model of modelsToTry) {
-    try {
-      logger.info(`Trying Claude API with model: ${model}`);
-      message = await anthropic.messages.create({
-        model: model,
-        max_tokens: 1024,
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image',
-                source: {
-                  type: 'base64',
-                  media_type: mimeType,
-                  data: base64,
-                },
-              },
-              {
-                type: 'text',
-                text: `Extract the following information from this invoice/receipt image:
+  // Create the image URL in OpenAI format for OpenRouter
+  const imageUrl = `data:${mimeType};base64,${base64}`;
+  const promptText = `Extract the following information from this invoice/receipt image:
 
 1. Date (format: YYYY-MM-DD)
 2. Total Amount (number only, no currency symbols)
@@ -224,18 +175,57 @@ Return ONLY a valid JSON object in this exact format:
   "category": "string"
 }
 
-If any field cannot be determined, use empty string for strings and 0 for amount.`,
-              },
-            ],
-          },
-        ],
+If any field cannot be determined, use empty string for strings and 0 for amount.`;
+
+  for (const model of modelsToTry) {
+    try {
+      logger.info(`Trying OpenRouter API with model: ${model}`);
+      
+      const apiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': process.env.NEXT_PUBLIC_BASE_URL || 'https://darwinbox-reimbursements.vercel.app',
+          'X-Title': 'Darwinbox Reimbursements Bot'
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'image_url',
+                  image_url: {
+                    url: imageUrl
+                  }
+                },
+                {
+                  type: 'text',
+                  text: promptText
+                }
+              ]
+            }
+          ],
+          max_tokens: 1024
+        })
       });
+
+      if (!apiResponse.ok) {
+        const errorData = await apiResponse.json().catch(() => ({}));
+        throw new Error(`OpenRouter API error (${apiResponse.status}): ${errorData.error?.message || apiResponse.statusText}`);
+      }
+
+      const data = await apiResponse.json();
+      response = data;
       modelUsed = model;
-      logger.info(`✅ Claude API call successful with model: ${model}`);
+      logger.info(`✅ OpenRouter API call successful with model: ${model}`);
       break; // Success, exit loop
     } catch (error: any) {
       lastError = error;
-      if (error?.status === 404) {
+      const status = error?.status || (error?.message?.includes('401') ? 401 : null);
+      if (status === 404) {
         // Model not found, try next one
         logger.info(`Model ${model} not found (404), trying next...`);
         continue;
@@ -247,12 +237,12 @@ If any field cannot be determined, use empty string for strings and 0 for amount
     }
   }
   
-  if (!message) {
+  if (!response) {
     // All models failed
     const error: unknown = lastError;
     // Log full error details for debugging
     const errorDetails: any = error;
-    logger.error('Claude API error details:', {
+    logger.error('OpenRouter API error details:', {
       message: errorDetails?.message,
       status: errorDetails?.status,
       statusText: errorDetails?.statusText,
@@ -269,12 +259,9 @@ If any field cannot be determined, use empty string for strings and 0 for amount
           errorMsg.includes('401') ||
           errorMsg.includes('unauthorized') ||
           status === 401) {
-        const apiKey = process.env.CLAUDE_API_KEY || '';
-        const keyPreview = apiKey ? `${apiKey.substring(0, 10)}...` : 'NOT SET';
         throw new Error(
-          `Invalid Claude API key. ` +
-          `Key preview: ${keyPreview}. ` +
-          `Please verify your CLAUDE_API_KEY in .env file starts with "sk-ant-" and is the correct key from Anthropic. ` +
+          `Invalid OpenRouter API key. ` +
+          `Please verify your OPENROUTER_API_KEY in environment variables is correct. ` +
           `Original error: ${error.message}`
         );
       }
@@ -283,31 +270,31 @@ If any field cannot be determined, use empty string for strings and 0 for amount
       if (errorMsg.includes('rate_limit') || 
           errorMsg.includes('429') || 
           status === 429) {
-        throw new Error('Claude API rate limit exceeded. Please try again later.');
+        throw new Error('OpenRouter API rate limit exceeded. Please try again later.');
       }
       
       // Check for other HTTP errors
       if (status) {
-        throw new Error(`Claude API error (${status}): ${error.message}`);
+        throw new Error(`OpenRouter API error (${status}): ${error.message}`);
       }
       
       // Generic error
-      throw new Error(`Claude API error: ${error.message}`);
+      throw new Error(`OpenRouter API error: ${error.message}`);
     }
     
     // Unknown error type
-    throw new Error(`Unknown error calling Claude API: ${String(error)}`);
+    throw new Error(`Unknown error calling OpenRouter API: ${String(error)}`);
   }
 
-  // Extract JSON from response
-  if (!message.content || message.content.length === 0) {
-    throw new Error('Empty response from Claude API');
+  // Extract JSON from response (OpenRouter format)
+  if (!response.choices || response.choices.length === 0 || !response.choices[0].message?.content) {
+    throw new Error('Empty response from OpenRouter API');
   }
 
-  const responseText = message.content[0].type === 'text' ? message.content[0].text : '';
+  const responseText = response.choices[0].message.content;
   
   if (!responseText) {
-    throw new Error('No text content in Claude response');
+    throw new Error('No text content in OpenRouter response');
   }
   
   // Try to find JSON in the response - handle multiple JSON objects or code blocks
@@ -330,8 +317,8 @@ If any field cannot be determined, use empty string for strings and 0 for amount
   }
   
   if (!jsonMatch) {
-    logger.error('Claude response text:', responseText);
-    throw new Error('No JSON found in Claude response. Response: ' + responseText.substring(0, 200));
+    logger.error('OpenRouter response text:', responseText);
+    throw new Error('No JSON found in OpenRouter response. Response: ' + responseText.substring(0, 200));
   }
 
   let extracted: ExtractedData;
@@ -344,7 +331,7 @@ If any field cannot be determined, use empty string for strings and 0 for amount
   } catch (parseError) {
     logger.error('JSON parse error:', parseError);
     logger.error('JSON string that failed:', jsonMatch[0].substring(0, 500));
-    throw new Error(`Failed to parse JSON from Claude response: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
+    throw new Error(`Failed to parse JSON from OpenRouter response: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
   }
   
   return {
@@ -397,42 +384,12 @@ export async function extractDataFromInvoicePath(filePath: string): Promise<Extr
   
   logger.info('Processing file from path:', { name: fileName, type: mimeType, size: fileBuffer.length });
   
-  // Initialize Anthropic client
-  const anthropic = getAnthropicClient();
+  // Get OpenRouter API key
+  const apiKey = getOpenRouterApiKey();
   
-  // Try multiple models
-  const modelsToTry = [
-    'claude-3-5-sonnet-20241022',
-    'claude-3-5-sonnet-20240620', 
-    'claude-3-sonnet-20240229',
-    'claude-3-opus-20240229',
-    'claude-3-haiku-20240307'
-  ];
-  
-  let message: any = null;
-  let lastError: any = null;
-  
-  for (const model of modelsToTry) {
-    try {
-      logger.info(`Trying Claude API with model: ${model}`);
-      message = await anthropic.messages.create({
-        model: model,
-        max_tokens: 1024,
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image',
-                source: {
-                  type: 'base64',
-                  media_type: mimeType,
-                  data: base64,
-                },
-              },
-              {
-                type: 'text',
-                text: `Extract the following information from this invoice/receipt image:
+  // Create the image URL in OpenAI format for OpenRouter
+  const imageUrl = `data:${mimeType};base64,${base64}`;
+  const promptText = `Extract the following information from this invoice/receipt image:
 
 1. Date (format: YYYY-MM-DD)
 2. Total Amount (number only, no currency symbols)
@@ -507,17 +464,69 @@ Return ONLY a valid JSON object in this exact format:
   "category": "string"
 }
 
-If any field cannot be determined, use empty string for strings and 0 for amount.`,
-              },
-            ],
-          },
-        ],
+If any field cannot be determined, use empty string for strings and 0 for amount.`;
+
+  // Try multiple models (OpenRouter format)
+  const modelsToTry = [
+    'anthropic/claude-3.5-sonnet',
+    'anthropic/claude-3-opus',
+    'anthropic/claude-3-sonnet',
+    'anthropic/claude-3-haiku'
+  ];
+  
+  let response: any = null;
+  let lastError: any = null;
+  let modelUsed = '';
+  
+  for (const model of modelsToTry) {
+    try {
+      logger.info(`Trying OpenRouter API with model: ${model}`);
+      
+      const apiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': process.env.NEXT_PUBLIC_BASE_URL || 'https://darwinbox-reimbursements.vercel.app',
+          'X-Title': 'Darwinbox Reimbursements Bot'
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'image_url',
+                  image_url: {
+                    url: imageUrl
+                  }
+                },
+                {
+                  type: 'text',
+                  text: promptText
+                }
+              ]
+            }
+          ],
+          max_tokens: 1024
+        })
       });
-      logger.info(`✅ Claude API call successful with model: ${model}`);
+
+      if (!apiResponse.ok) {
+        const errorData = await apiResponse.json().catch(() => ({}));
+        throw new Error(`OpenRouter API error (${apiResponse.status}): ${errorData.error?.message || apiResponse.statusText}`);
+      }
+
+      const data = await apiResponse.json();
+      response = data;
+      modelUsed = model;
+      logger.info(`✅ OpenRouter API call successful with model: ${model}`);
       break;
     } catch (error: any) {
       lastError = error;
-      if (error?.status === 404) {
+      const status = error?.status || (error?.message?.includes('401') ? 401 : null);
+      if (status === 404) {
         logger.info(`Model ${model} not found (404), trying next...`);
         continue;
       } else {
@@ -527,19 +536,19 @@ If any field cannot be determined, use empty string for strings and 0 for amount
     }
   }
   
-  if (!message) {
+  if (!response) {
     throw new Error(`Failed to process invoice: ${lastError?.message || 'Unknown error'}`);
   }
   
-  // Extract JSON from response
-  if (!message.content || message.content.length === 0) {
-    throw new Error('Empty response from Claude API');
+  // Extract JSON from response (OpenRouter format)
+  if (!response.choices || response.choices.length === 0 || !response.choices[0].message?.content) {
+    throw new Error('Empty response from OpenRouter API');
   }
   
-  const responseText = message.content[0].type === 'text' ? message.content[0].text : '';
+  const responseText = response.choices[0].message.content;
   
   if (!responseText) {
-    throw new Error('No text content in Claude response');
+    throw new Error('No text content in OpenRouter response');
   }
   
   // Try to find JSON in the response - handle multiple JSON objects or code blocks
@@ -562,8 +571,8 @@ If any field cannot be determined, use empty string for strings and 0 for amount
   }
   
   if (!jsonMatch) {
-    logger.error('Claude response text:', responseText);
-    throw new Error('No JSON found in Claude response. Response: ' + responseText.substring(0, 200));
+    logger.error('OpenRouter response text:', responseText);
+    throw new Error('No JSON found in OpenRouter response. Response: ' + responseText.substring(0, 200));
   }
 
   let extracted: ExtractedData;
@@ -576,7 +585,7 @@ If any field cannot be determined, use empty string for strings and 0 for amount
   } catch (parseError) {
     logger.error('JSON parse error:', parseError);
     logger.error('JSON string that failed:', jsonMatch[0].substring(0, 500));
-    throw new Error(`Failed to parse JSON from Claude response: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
+    throw new Error(`Failed to parse JSON from OpenRouter response: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
   }
   
   return {
