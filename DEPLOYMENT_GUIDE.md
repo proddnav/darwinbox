@@ -407,3 +407,5 @@ After completing this guide, you'll need to:
 - Use environment variables, never hardcode secrets
 - Regularly update Docker images: `docker-compose pull && docker-compose up -d`
 
+
+
