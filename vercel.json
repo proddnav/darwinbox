@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "OPENROUTER_API_KEY": "@openrouter_api_key",
+    "REDIS_URL": "@redis_url",
+    "BROWSERLESS_URL": "@browserless_url",
+    "BROWSERLESS_TOKEN": "@browserless_token",
+    "TELEGRAM_BOT_TOKEN": "@telegram_bot_token",
+    "NEXT_PUBLIC_BASE_URL": "@next_public_base_url"
+  }
+}
