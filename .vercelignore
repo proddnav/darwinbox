@@ -1,0 +1,16 @@
+# Ignore files for Vercel deployment
+node_modules
+.git
+.env*
+*.log
+*.md
+docker-compose.yml
+vps-setup.sh
+scripts/setup-mcp-login.ts
+.vscode
+.DS_Store
+*.test.*
+__tests__
+coverage
+.github
+claude-desktop-config.json
