@@ -16,7 +16,17 @@ export async function extractDataFromInvoice(imageFile: File): Promise<Extracted
   // Convert file to base64
   const arrayBuffer = await imageFile.arrayBuffer();
   const base64 = Buffer.from(arrayBuffer).toString('base64');
-  const mimeType = imageFile.type || 'image/png';
+  
+  // Ensure mime type is one of the allowed types
+  let mediaType: 'image/png' | 'image/jpeg' | 'image/gif' | 'image/webp' = 'image/png';
+  
+  if (imageFile.type === 'image/jpeg' || imageFile.type === 'image/jpg') {
+    mediaType = 'image/jpeg';
+  } else if (imageFile.type === 'image/gif') {
+    mediaType = 'image/gif';
+  } else if (imageFile.type === 'image/webp') {
+    mediaType = 'image/webp';
+  }
 
   const message = await anthropic.messages.create({
     model: 'claude-3-5-sonnet-20241022',
@@ -29,7 +39,7 @@ export async function extractDataFromInvoice(imageFile: File): Promise<Extracted
             type: 'image',
             source: {
               type: 'base64',
-              media_type: mimeType,
+              media_type: mediaType,
               data: base64,
             },
           },

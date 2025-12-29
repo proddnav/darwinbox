@@ -1,0 +1,681 @@
+{
+  "name": "Darwinbox Reimbursement Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ]
+      },
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "telegram-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"message\"] && ($json[\"message\"][\"photo\"] || $json[\"message\"][\"document\"]) ? true : false}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-file",
+      "name": "Has File?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getFile",
+        "fileId": "={{$json[\"message\"][\"photo\"] ? $json[\"message\"][\"photo\"][$json[\"message\"][\"photo\"].length - 1][\"file_id\"] : $json[\"message\"][\"document\"][\"file_id\"]}}"
+      },
+      "id": "get-file",
+      "name": "Get File Info",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [650, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/file/bot{{$credentials.telegramApi.accessToken}}/{{$json[\"file_path\"]}}",
+        "responseFormat": "file",
+        "options": {}
+      },
+      "id": "download-file",
+      "name": "Download File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "text": "📄 Processing your invoice... Please wait."
+      },
+      "id": "send-processing",
+      "name": "Send Processing Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1050, 100],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$vars.BASE_URL}}/api/batch-upload",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{$binary.data}}",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "contentType": "multipart-form-data",
+        "options": {}
+      },
+      "id": "ocr-process",
+      "name": "OCR Process",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ocrData = $input.first().json;\nconst chatId = $node[\"Telegram Trigger\"].json.message.chat.id;\nconst messageId = $node[\"Telegram Trigger\"].json.message.message_id;\n\n// Store the data for later use\nconst sessionKey = `invoice_${chatId}_${messageId}`;\n\n// Format the extracted data\nconst formatted = `\n✅ Invoice Data Extracted:\n\n📅 Date: ${ocrData.date || 'N/A'}\n💰 Amount: ₹${ocrData.amount || 'N/A'}\n🏪 Merchant: ${ocrData.merchant || 'N/A'}\n📝 Description: ${ocrData.description || 'N/A'}\n🏷️ Category: ${ocrData.categoryMapping?.categoryName || 'N/A'}\n`;\n\nreturn {\n  chatId: chatId,\n  ocrData: ocrData,\n  formattedText: formatted,\n  sessionKey: sessionKey,\n  callbackData: `confirm_${sessionKey}`\n};"
+      },
+      "id": "format-data",
+      "name": "Format OCR Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$json[\"chatId\"]}}",
+        "text": "={{$json[\"formattedText\"]}}\n\n✅ Please confirm if this looks correct:",
+        "additionalFields": {
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "✅ Confirm & Submit",
+                  "callback_data": "={{$json[\"callbackData\"]}}"
+                },
+                {
+                  "text": "❌ Cancel",
+                  "callback_data": "cancel_{{$json[\"sessionKey\"]}}"
+                }
+              ]
+            ]
+          }
+        }
+      },
+      "id": "send-confirmation",
+      "name": "Send Confirmation",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1450, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"callback_query\"][\"data\"]}}",
+              "operation": "startsWith",
+              "value2": "confirm_"
+            }
+          ]
+        }
+      },
+      "id": "check-callback",
+      "name": "Is Confirmation?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "operation": "editMessageText",
+        "chatId": "={{$json[\"callback_query\"][\"message\"][\"chat\"][\"id\"]}}",
+        "messageId": "={{$json[\"callback_query\"][\"message\"][\"message_id\"]}}",
+        "text": "✅ Confirmed! Now I need your Darwinbox email address.\n\nPlease send your email:"
+      },
+      "id": "ask-email",
+      "name": "Ask for Email",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [650, 400],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        }
+      },
+      "id": "wait-for-email",
+      "name": "Wait for Email",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [850, 400],
+      "webhookId": "wait-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"message\"][\"text\"]}}",
+              "operation": "regex",
+              "value2": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+            }
+          ]
+        }
+      },
+      "id": "validate-email",
+      "name": "Valid Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 600]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$vars.BASE_URL}}/api/telegram/init-login",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "telegramChatId",
+              "value": "={{$json[\"message\"][\"chat\"][\"id\"]}}"
+            },
+            {
+              "name": "email",
+              "value": "={{$json[\"message\"][\"text\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "init-login",
+      "name": "Initialize Login",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 600]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "text": "🔐 Please log in to Darwinbox using this link:\n\n{{$json[\"loginUrl\"]}}\n\n⏰ This link expires in 15 minutes.\n\n📱 After logging in, I'll automatically submit your expense.",
+        "additionalFields": {
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "send-login-url",
+      "name": "Send Login URL",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1050, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Store session data for monitoring\nconst sessionData = {\n  sessionId: $json.sessionId,\n  chatId: $node[\"Telegram Trigger\"].json.message.chat.id,\n  ocrData: $node[\"format-data\"].json.ocrData,\n  loginToken: $json.loginToken\n};\n\n// Set up for login monitoring\nreturn {\n  ...sessionData,\n  checkCount: 0,\n  maxChecks: 150 // 5 minutes at 2 second intervals\n};"
+      },
+      "id": "prepare-monitoring",
+      "name": "Prepare Monitoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 600]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "wait-2s",
+      "name": "Wait 2 seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1450, 600]
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.BASE_URL}}/api/login/status?telegramChatId={{$json[\"chatId\"]}}",
+        "options": {}
+      },
+      "id": "check-login",
+      "name": "Check Login Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1650, 600]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"loggedIn\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "is-logged-in",
+      "name": "Logged In?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 600]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$vars.BASE_URL}}/api/submit",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{$json[\"sessionId\"]}}"
+            },
+            {
+              "name": "date",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"date\"]}}"
+            },
+            {
+              "name": "amount",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"amount\"]}}"
+            },
+            {
+              "name": "merchant",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"merchant\"]}}"
+            },
+            {
+              "name": "description",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"description\"]}}"
+            },
+            {
+              "name": "categoryValue",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"categoryMapping\"][\"categoryValue\"]}}"
+            },
+            {
+              "name": "expenseTypeValue",
+              "value": "={{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"categoryMapping\"][\"expenseTypeValue\"]}}"
+            },
+            {
+              "name": "file",
+              "value": "={{$node[\"download-file\"].binary.data}}",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "submit-expense",
+      "name": "Submit Expense",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [2050, 500]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$node[\"prepare-monitoring\"].json[\"chatId\"]}}",
+        "text": "✅ Success! Your expense has been submitted to Darwinbox.\n\n📋 Details:\n- Date: {{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"date\"]}}\n- Amount: ₹{{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"amount\"]}}\n- Merchant: {{$node[\"prepare-monitoring\"].json[\"ocrData\"][\"merchant\"]}}\n\nYou can check your Darwinbox portal for the submission status."
+      },
+      "id": "send-success",
+      "name": "Send Success",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [2250, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Increment check count\nconst checkCount = $json.checkCount + 1;\n\nif (checkCount >= $json.maxChecks) {\n  throw new Error('Login timeout - user did not log in within 5 minutes');\n}\n\nreturn {\n  ...$json,\n  checkCount: checkCount\n};"
+      },
+      "id": "increment-counter",
+      "name": "Increment Counter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1850, 700]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$json[\"chatId\"]}}",
+        "text": "❌ Login timeout. The login link has expired.\n\nPlease start over by sending a new invoice photo."
+      },
+      "id": "send-timeout",
+      "name": "Send Timeout Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [2050, 800],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$json[\"message\"][\"chat\"][\"id\"]}}",
+        "text": "❌ Please send a valid email address.\n\nExample: yourname@company.com"
+      },
+      "id": "invalid-email",
+      "name": "Invalid Email Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [850, 700],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "BASE_URL",
+              "value": "http://145.223.18.204:3000"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-vars",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [50, 300]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Has File?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Confirmation?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Valid Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has File?": {
+      "main": [
+        [
+          {
+            "node": "Get File Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get File Info": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Send Processing Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OCR Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OCR Process": {
+      "main": [
+        [
+          {
+            "node": "Format OCR Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format OCR Data": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Confirmation?": {
+      "main": [
+        [
+          {
+            "node": "Ask for Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask for Email": {
+      "main": [
+        [
+          {
+            "node": "Wait for Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid Email?": {
+      "main": [
+        [
+          {
+            "node": "Initialize Login",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Invalid Email Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Login": {
+      "main": [
+        [
+          {
+            "node": "Send Login URL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Monitoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Monitoring": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 seconds": {
+      "main": [
+        [
+          {
+            "node": "Check Login Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Login Status": {
+      "main": [
+        [
+          {
+            "node": "Logged In?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Logged In?": {
+      "main": [
+        [
+          {
+            "node": "Submit Expense",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Increment Counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Expense": {
+      "main": [
+        [
+          {
+            "node": "Send Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increment Counter": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "onError": [
+        {
+          "node": "Send Timeout Message",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "1",
+  "id": "1",
+  "tags": []
+}
